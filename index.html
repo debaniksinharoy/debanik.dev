@@ -43,10 +43,12 @@
 						 headers: {
 									'Content-Type': 'application/x-www-form-urlencoded'
 								  },
-						success: function(data)
+						success: function(data2)
 								{
-									console.log(data['statewise']);	
-									var data =data['statewise'];	
+									//console.log(data['key_values'][0]);	
+									var data = data2['statewise'];	
+									var data1 = data2['key_values'][0];
+									console.log(data1);
 									var confirm = 0;
 									var active  = 0;
 									var recover = 0;
@@ -93,10 +95,10 @@
 											adeceased = parseInt(adeceased)+parseInt(value['deaths']);
 											arecover  = parseInt(arecover)+parseInt(value['recovered']);
 											
-											aconfirmdlta  = parseInt(aconfirmdlta)+parseInt(value['delta']['confirmed']);
+											aconfirmdlta  = parseInt(aconfirmdlta)+parseInt(data1['confirmeddelta']);
 											aactivedlta   = parseInt(aactivedlta)+parseInt(value['delta']['active']);
-											adeceaseddlta = parseInt(adeceaseddlta)+parseInt(value['delta']['deaths']);
-											recoverdlta  = parseInt(recoverdlta)+parseInt(value['delta']['recovered']);
+											adeceaseddlta = parseInt(adeceaseddlta)+parseInt(data1['deceaseddelta']);
+											arecoverdlta  = parseInt(arecoverdlta)+parseInt(data1['recovereddelta']);
 											
 											aconfirm  = aconfirm+((aconfirmdlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+aconfirmdlta+')</sup>' :'');
 											aactive   = aactive+((aactivedlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+aactivedlta+')</sup>' :'');
