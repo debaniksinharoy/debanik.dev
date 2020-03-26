@@ -39,28 +39,81 @@
 	$.ajax	(
 						{
 						type: "GET",
-						url: 'https://api.covid19india.org/state_district_wise.json',
+						url: 'https://api.covid19india.org/data.json',
 						 headers: {
 									'Content-Type': 'application/x-www-form-urlencoded'
 								  },
 						success: function(data)
 								{
-									console.log(data['West Bengal']['districtData']);	
-									var data =data['West Bengal']['districtData'];	
+									console.log(data['statewise']);	
+									var data =data['statewise'];	
 									var confirm = 0;
 									var active  = 0;
 									var recover = 0;
-									var deceased = 0;
+									var deceased= 0;
+									
+									var confirmdlta = 0;
+									var activedlta  = 0;
+									var recoverdlta = 0;
+									var deceaseddlta= 0;
+									
+									var aconfirm = 0;
+									var aactive  = 0;
+									var arecover = 0;
+									var adeceased= 0;
+									
+									var aconfirmdlta = 0;
+									var aactivedlta  = 0;
+									var arecoverdlta = 0;
+									var adeceaseddlta= 0;
 									$.each(data,function(index,value){
-										confirm  = parseInt(confirm)+parseInt(value['confirmed']);
-										active   = parseInt(active)+parseInt(value['active']);
-										deceased = parseInt(deceased)+parseInt(value['deaths']);
-										recover  = parseInt(recover)+parseInt(value['recovered']);
+										if(value['state'] == 'West Bengal')
+										{
+											confirm  = parseInt(confirm)+parseInt(value['confirmed']);
+											active   = parseInt(active)+parseInt(value['active']);
+											deceased = parseInt(deceased)+parseInt(value['deaths']);
+											recover  = parseInt(recover)+parseInt(value['recovered']);
+											
+											confirmdlta  = parseInt(confirmdlta)+parseInt(value['delta']['confirmed']);
+											activedlta   = parseInt(activedlta)+parseInt(value['delta']['active']);
+											deceaseddlta = parseInt(deceaseddlta)+parseInt(value['delta']['deaths']);
+											recoverdlta  = parseInt(recoverdlta)+parseInt(value['delta']['recovered']);
+											
+											confirm  = confirm+((confirmdlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+confirmdlta+')</sup>' :'');
+											active   = active+((activedlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+activedlta+')</sup>' :'');
+											deceased = deceased+((deceaseddlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+deceaseddlta+')</sup>' :'');
+											recover  = recover+((recoverdlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+recoverdlta+')</sup>' :'');
+											
+											
+										}
+										else if(value['state'] == 'Total')
+										{
+											aconfirm  = parseInt(aconfirm)+parseInt(value['confirmed']);
+											aactive   = parseInt(aactive)+parseInt(value['active']);
+											adeceased = parseInt(adeceased)+parseInt(value['deaths']);
+											arecover  = parseInt(arecover)+parseInt(value['recovered']);
+											
+											aconfirmdlta  = parseInt(aconfirmdlta)+parseInt(value['delta']['confirmed']);
+											aactivedlta   = parseInt(aactivedlta)+parseInt(value['delta']['active']);
+											adeceaseddlta = parseInt(adeceaseddlta)+parseInt(value['delta']['deaths']);
+											recoverdlta  = parseInt(recoverdlta)+parseInt(value['delta']['recovered']);
+											
+											aconfirm  = aconfirm+((aconfirmdlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+aconfirmdlta+')</sup>' :'');
+											aactive   = aactive+((aactivedlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+aactivedlta+')</sup>' :'');
+											adeceased = adeceased+((adeceaseddlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+adeceaseddlta+')</sup>' :'');
+											arecover  = arecover+((arecoverdlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+arecoverdlta+')</sup>' :'');
+											
+											
+										}
 									})
 									$('#confirm').html(confirm);
 									$('#active').html(active);
 									$('#recover').html(recover);
 									$('#deceased').html(deceased);
+									$('#aconfirm').html(aconfirm);
+									$('#aactive').html(aactive);
+									$('#arecover').html(arecover);
+									$('#adeceased').html(adeceased);
 									
 								},
 								error: function(r,e,s)
@@ -81,12 +134,16 @@
 </script>
 
 </head>
-<body style="background-image: url('static/img/chiranjit-background.jpg')" >
-<div class="corona_dlt" style="background-color:#ff8251;height:84px;width:100%;padding:5px 10px;position:absolute;top:0%;left:0%">
-	<span style="font-size:15px;color:white;"><b>WEST BENGAL COVID-19 TRACKER</b></span>
-	<span>
-		<table border="0" style="color:white;border:1px solid white;font-size:11px">
+<body style="background-image: url('static/img/chiranjit-background.jpg')">
+<div class="corona_dlt" style="background-color:#ff8251;max-height:200px;width:100%;padding:5px 10px;position:absolute;top:0%;left:0%">
+	
+	<div>
+		
+		<table class="ind_dtl" border="0" style="color:white;border:1px solid white;font-size:12px;margin-right:10px">
 			<thead>
+				<tr>
+					<td colspan="4"><div style="font-size:15px;color:white;border:1px solid white;padding: 0px 10px"><b>INDIA COVID-19 TRACKER</b></div></td>
+				</tr>	
 				<tr>
 					<th style="color:white;border:1px solid white;padding: 0px 10px">CONFIRMED</th>
 					<th style="color:white;border:1px solid white;padding: 0px 10px">ACTIVE</th>
@@ -96,15 +153,39 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td style="color:white;border:1px solid white;padding: 0px 10px" id="confirm"></td>
-					<td style="color:white;border:1px solid white;padding: 0px 10px" id="active"></td>
-					<td style="color:white;border:1px solid white;padding: 0px 10px" id="recover"></td>
-					<td style="color:white;border:1px solid white;padding: 0px 10px" id="deceased"></td>
+					<td style="color:white;border:1px solid white;padding: 0px 10px;text-align:center;" id="aconfirm"></td>
+					<td style="color:white;border:1px solid white;padding: 0px 10px;text-align:center;" id="aactive"></td>
+					<td style="color:white;border:1px solid white;padding: 0px 10px;text-align:center;" id="arecover"></td>
+					<td style="color:white;border:1px solid white;padding: 0px 10px;text-align:center;" id="adeceased"></td>
 				</tr>
 			</tbody>
 		</table>
 		
-	</span>
+		<table class="wb_dtl" border="0" style="color:white;border:1px solid white;font-size:12px">
+			<thead>
+				<tr>
+					<td colspan="4"><div style="font-size:15px;color:white;border:1px solid white;padding: 0px 10px"><b>WEST BENGAL COVID-19 TRACKER</b></div></td>
+				</tr>
+				<tr>
+					<th style="color:white;border:1px solid white;padding: 0px 10px">CONFIRMED</th>
+					<th style="color:white;border:1px solid white;padding: 0px 10px">ACTIVE</th>
+					<th style="color:white;border:1px solid white;padding: 0px 10px">RECOVERED</th>
+					<th style="color:white;border:1px solid white;padding: 0px 10px">DECEASED</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="color:white;border:1px solid white;padding: 0px 10px;text-align:center;" id="confirm"></td>
+					<td style="color:white;border:1px solid white;padding: 0px 10px;text-align:center;" id="active"></td>
+					<td style="color:white;border:1px solid white;padding: 0px 10px;text-align:center;" id="recover"></td>
+					<td style="color:white;border:1px solid white;padding: 0px 10px;text-align:center;" id="deceased"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+	
+	
 </div>
 
 <div class="inner-div">
