@@ -95,13 +95,37 @@ div#pic{
     height: 200px;
     background-size: 200px 200px;
     background-color: #ff8251;
-	margin-top:104px;
+	margin-top:106px;
 	/*margin:auto;*/
     border-radius: 200px;
     border: 2px solid #ff8251;
     margin-bottom: 52px;
 }
 
+.ind_dtl{
+    /* width: 45%; */
+	display:inline-block;
+}
+.wb_dtl{
+    /* width: 45%; */
+	display:inline-block;
+}
+
+@media only screen and (max-width: 647px) {
+  .ind_dtl{
+    /* width: 100%; */
+	/* display:inline-block; */
+}
+.wb_dtl{
+    /* width: 100%; */
+	/* display:inline-block; */
+}
+ div#pic{
+        
+		margin-top:200px;
+    }
+
+}
 
 
 
@@ -152,6 +176,7 @@ div#pic{
         background-size: 180px 180px;
         border-radius: 180px;
         margin-bottom: 24px;
+	    margin-top:200px;
     }
 }
 
