@@ -36,7 +36,7 @@
     live: true // default
 })
 			new WOW().init();
-	$.ajax	(
+		$.ajax	(
 						{
 						type: "GET",
 						url: 'https://api.covid19india.org/data.json',
@@ -45,10 +45,9 @@
 								  },
 						success: function(data2)
 								{
-									//console.log(data['key_values'][0]);	
 									var data = data2['statewise'];	
-									var data1 = data2['key_values'][0];
-									console.log(data1);
+									//var data1 = data2['key_values'][0];
+
 									var confirm = 0;
 									var active  = 0;
 									var recover = 0;
@@ -76,10 +75,10 @@
 											deceased = parseInt(deceased)+parseInt(value['deaths']);
 											recover  = parseInt(recover)+parseInt(value['recovered']);
 											
-											confirmdlta  = parseInt(confirmdlta)+parseInt(value['delta']['confirmed']);
-											activedlta   = parseInt(activedlta)+parseInt(value['delta']['active']);
-											deceaseddlta = parseInt(deceaseddlta)+parseInt(value['delta']['deaths']);
-											recoverdlta  = parseInt(recoverdlta)+parseInt(value['delta']['recovered']);
+											confirmdlta  = parseInt(confirmdlta)+parseInt(value['deltaconfirmed']);
+											activedlta   = parseInt(activedlta);
+											deceaseddlta = parseInt(deceaseddlta)+parseInt(value['deltadeaths']);
+											recoverdlta  = parseInt(recoverdlta)+parseInt(value['deltarecovered']);
 											
 											confirm  = confirm+((confirmdlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+confirmdlta+')</sup>' :'');
 											active   = active+((activedlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+activedlta+')</sup>' :'');
@@ -95,10 +94,10 @@
 											adeceased = parseInt(adeceased)+parseInt(value['deaths']);
 											arecover  = parseInt(arecover)+parseInt(value['recovered']);
 											
-											aconfirmdlta  = parseInt(aconfirmdlta)+parseInt(data1['confirmeddelta']);
-											aactivedlta   = parseInt(aactivedlta)+parseInt(value['delta']['active']);
-											adeceaseddlta = parseInt(adeceaseddlta)+parseInt(data1['deceaseddelta']);
-											arecoverdlta  = parseInt(arecoverdlta)+parseInt(data1['recovereddelta']);
+											aconfirmdlta  = parseInt(aconfirmdlta)+parseInt(value['deltaconfirmed']);
+											aactivedlta   = parseInt(aactivedlta);
+											adeceaseddlta = parseInt(adeceaseddlta)+parseInt(value['deltadeaths']);
+											arecoverdlta  = parseInt(arecoverdlta)+parseInt(value['deltarecovered']);
 											
 											aconfirm  = aconfirm+((aconfirmdlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+aconfirmdlta+')</sup>' :'');
 											aactive   = aactive+((aactivedlta > 0) ? ' <sup style="color:#9effb8">(&uarr;'+aactivedlta+')</sup>' :'');
@@ -126,7 +125,12 @@
 								}
 								
 						}
-					);	
+					);
+							
+							
+											
+									
+								
 	</script>
     <link rel="canonical" href="https://debanik.dev" />
 <script type="text/javascript">
